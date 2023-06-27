@@ -5,26 +5,64 @@ class Program
 {
 	static void Main()
 	{
+		// Regular expression
 		string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!""#$%&'()*+,-./:;<=>?@\[\]^_`{|}~])([^\s]{40,50})$";
 		Regex regex = new Regex(pattern);
 
 		while (true)
 		{
-			Console.Write("Enter a string (or 'quit' to stop): ");
-			string userInput = Console.ReadLine();
+			Console.Write("If you want to test your string, enter '1', if you want to see the result of testing a regular expression, enter '2': ");
+			string fisrtUserInput = Console.ReadLine();
 
-			if (userInput.ToLower() == "quit")
+			if (fisrtUserInput == "1")
 			{
-				break;
-			}
+				while (true)
+				{
+					Console.Write("Enter a string (or 'back' to return): ");
+					string secondUserInput = Console.ReadLine();
 
-			if (regex.IsMatch(userInput))
-			{
-				Console.WriteLine("Match");
+					if (secondUserInput.ToLower() == "back")
+					{
+						break;
+					}
+
+					if (regex.IsMatch(secondUserInput))
+					{
+						Console.WriteLine("Match");
+					}
+					else
+					{
+						Console.WriteLine("No match");
+					}
+				}
 			}
-			else
+			else if (fisrtUserInput == "2")
 			{
-				Console.WriteLine("No match");
+				// Test cases
+				string[] testCases = new string[]
+				{
+				"ThisIsTooShort1!",
+				"ThisIsWayTooLong1!ThisIsWayTooLong1!ThisIsWayTooLong1!ThisIsWayTooLong1!",
+				"ThisIsJustRightLengthWithAllReqChars1!",
+				"missinguppercase1!",
+				"MISSINGLOWERCASE1!",
+				"MissingSpecialCharacter1",
+				"Missingsigit!",
+				"This has Excess White Spaces 1!",
+				" ThisStartsWithWhiteSpace1!",
+				"ThisEndsWithWhiteSpace1! ",
+				"ThisIsCorrect1!ThisIsCorrect1!ThisIsCorrect1!"
+				};
+
+				// Test the regular expression
+				foreach (string test in testCases)
+				{
+					bool isMatch = regex.IsMatch(test);
+					Console.WriteLine($"Input: {test}\nMatch: {isMatch}\n");
+				}
+
+				Console.Write("Click enter to continue");
+				Console.ReadLine();
 			}
 		}
 	}
